@@ -20,41 +20,85 @@ class TcmbApiClient {
   /// Response will be in xml format, [Xml2Json] is needed to convert it to json
   final xmlTransformer = Xml2Json();
 
-  /// The method will return all rate of exchanges that TCMB provides
-  /// Can throw [RatesRequestFailure] and [RatesNotFound]
-  /// Must be called with try-catch to handle these errors
+  /// Fetches the exchange rates from the TCMB API.
+  ///
+  /// This method sends a GET request to the TCMB API and retrieves the exchange rates. The rates are returned as a list of `Currency` objects.
+  ///
+  /// The `date` parameter is optional. If provided, the method fetches the rates for the specified date. If not provided, the method fetches the rates for the current day.
+  ///
+  /// The method throws a `RatesRequestFailure` exception if the HTTP request fails. The exception includes the HTTP status code.
+  ///
+  /// The method throws a `RatesNotFound` exception in the following cases:
+  /// - The 'Tarih_Date' key is not present in the response body.
+  /// - The 'Currency' key is not present in the 'Tarih_Date' map.
+  /// - The 'Currency' list is empty.
+  ///
+  /// Other exceptions can also be thrown if an error occurs during the processing of the response. These exceptions should be caught and handled by the caller.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// try {
+  ///   final rates = await tcmbApiClient.getRates();
+  ///   // Use the rates...
+  /// } catch (e) {
+  ///   // Handle the error...
+  /// }
+  /// ```
+  ///
+  /// Returns a `Future` that completes with a list of `Currency` objects representing the exchange rates.
   Future<List<Currency>> getRates({DateTime? date}) async {
     final request = Uri.https(_baseUrl, '$_path${date != null ? _getPathForDate(date) : 'today'}.xml');
-    print(request.path);
-    print(request);
-    try {
-      final response = await _httpClient.get(request);
 
-      if (response.statusCode != 200) {
-        throw RatesRequestFailure(statusCode: response.statusCode);
-      }
+    final response = await _httpClient.get(request);
 
-      final body = utf8.decode(response.bodyBytes);
-
-      final bodyJson = _xmlToJson(body);
-
-      final bodyMap = jsonDecode(bodyJson) as Map<String, dynamic>;
-      final dateMap = bodyMap['Tarih_Date'] as Map<String, dynamic>;
-      final currenciesMap = dateMap['Currency'] as List;
-
-      return currenciesMap.map((cMap) => Currency.fromJson(cMap as Map<String, dynamic>)).toList();
-    } catch (e) {
-      throw RatesNotFound(error: e.toString());
+    if (response.statusCode != 200) {
+      throw RatesRequestFailure(statusCode: response.statusCode);
     }
+
+    final body = utf8.decode(response.bodyBytes);
+
+    final bodyJson = _xmlToJson(body);
+
+    final bodyMap = jsonDecode(bodyJson) as Map<String, dynamic>;
+    if (!bodyMap.containsKey('Tarih_Date')) throw RatesNotFound();
+
+    final dateMap = bodyMap['Tarih_Date'] as Map<String, dynamic>;
+    if (!dateMap.containsKey('Currency')) throw RatesNotFound();
+
+    final currenciesMap = dateMap['Currency'] as List;
+    if (currenciesMap.isEmpty) throw RatesNotFound();
+
+    return currenciesMap.map((cMap) => Currency.fromJson(cMap as Map<String, dynamic>)).toList();
   }
 
-  /// The method will return single rate of exchange that TCMB provides and defined via [CurrencyCode]
-  /// `currencyCode` parameter should be passed
-  /// Can throw [RatesRequestFailure] and [RatesNotFound]
-  /// Must be called with try-catch to handle these errors
+  /// Fetches the exchange rate for a single currency from the TCMB API.
+  ///
+  /// This method uses the `getRates` method to fetch all exchange rates, and then filters the list to find the rate for the specified currency.
+  ///
+  /// The `currencyCode` parameter specifies the currency to fetch the rate for. It must be a value from the `CurrencyCode` enum.
+  ///
+  /// The `date` parameter is optional. If provided, the method fetches the rate for the specified date. If not provided, the method fetches the rate for the current day.
+  ///
+  /// If the specified currency is not found in the list of rates, the method returns `null`.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// try {
+  ///   final rate = await tcmbApiClient.getSingleRate(CurrencyCode.USD);
+  ///   if (rate != null) {
+  ///     // Use the rate...
+  ///   } else {
+  ///     // Handle the case where the rate is not found...
+  ///   }
+  /// } catch (e) {
+  ///   // Handle the error...
+  /// }
+  /// ```
+  ///
+  /// Returns a `Future` that completes with a `Currency` object representing the exchange rate for the specified currency, or `null` if the rate is not found.
+  /// Note: Must be called with try-catch to handle these errors
   Future<Currency?> getSingleRate(CurrencyCode currencyCode, {DateTime? date}) async {
     final all = await getRates(date: date);
-
     return all.firstWhereOrNull((c) => c.code == currencyCode.name);
   }
 
