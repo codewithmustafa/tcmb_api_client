@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'currency.g.dart';
 
+/// The model that we use to convert raw data from API to dart objects
+/// Some properties are nullable for now, most of them must be coming from API all the time
 @JsonSerializable()
 class Currency {
   Currency({

@@ -7,7 +7,8 @@ import 'package:tcmb_api/tcmb_api.dart';
 import 'package:xml2json/xml2json.dart';
 
 /// {@template tcmb_api_client}
-/// A dart client for TCMB rate of exchanges API: `https://www.tcmb.gov.tr/kurlar/{date}.xml`, example of date: `today`,
+/// A dart client for TCMB(Central Bank of the Republic of Türkiye) rate of exchanges API: `https://www.tcmb.gov.tr/kurlar/{date}.xml`, examples of date: `today`, `202404/22042024`.
+/// TCMB is the acronym used in Turkish for our central bank, that's why it used in [TcmbAPiClient] class name (for convenience purposes)
 /// {@endtemplate}
 class TcmbApiClient {
   /// {@macro tcmb_api_client}
@@ -63,6 +64,7 @@ class TcmbApiClient {
     return xmlTransformer.toParkerWithAttrs();
   }
 
+  /// Internal private method that constructs the part required for endpoint when requesting rates for days other than today
   String _getPathForDate(DateTime dateTime) {
     return '${dateTime.year}${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}${dateTime.month.toString().padLeft(2, '0')}${dateTime.year}';
   }

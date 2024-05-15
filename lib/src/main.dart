@@ -1,5 +1,6 @@
 import 'package:tcmb_api/tcmb_api.dart';
 
+/// A dart example for quick test purposes for the [tcmb_api] package and [TcmbApiClient]
 Future<void> main(List<String> args) async {
   final tcmbApiClient = TcmbApiClient();
 
