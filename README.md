@@ -17,7 +17,7 @@ This Dart package provides a simple and efficient way to interact with the Centr
 
 ## Demo
 
-![Demo](https://github.com/codewithmustafa/tcmb_api/raw/main/demo/demo.png)
+![Demo](https://github.com/codewithmustafa/tcmb_api/raw/main/demo/new_demo.png)
 
 ## Features
 
