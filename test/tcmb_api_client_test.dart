@@ -88,7 +88,7 @@ void main() {
 
       test('throws RatesNotFoundFailure on response that does not contain Currency tag', () async {
         final response = MockResponse();
-        final transformer = MockXml2Json();
+        // final transformer = MockXml2Json();
         //TODO Note: Is ot not required to mock some of methods of transformer below?
         when(() => response.statusCode).thenReturn(200);
         when(() => response.bodyBytes).thenReturn(Uint8List.fromList(utf8.encode(xmlResponseDoesNotContainCurrency)));
@@ -101,8 +101,8 @@ void main() {
 
       test('throws RatesNotFoundFailure on response that does not contain Tarih_Date tag', () async {
         final response = MockResponse();
-        final transformer = MockXml2Json();
-        //TODO Note: Is ot not required to mock some of methods of transformer below?
+        // final transformer = MockXml2Json();
+        //TODO Note Is it not required to mock some of methods of transformer below?
         when(() => response.statusCode).thenReturn(200);
         when(() => response.bodyBytes).thenReturn(Uint8List.fromList(utf8.encode(xmlResponseDoesNotContainTarihDate)));
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
@@ -114,8 +114,8 @@ void main() {
 
       test('returns List<Currency> on valid response', () async {
         final response = MockResponse();
-        final transformer = MockXml2Json();
-        //TODO Note: Is ot not required to mock some of methods of transformer below?
+        // final transformer = MockXml2Json();
+        //TODO Note Is it not required to mock some of methods of transformer below?
         when(() => response.statusCode).thenReturn(200);
         when(() => response.bodyBytes).thenReturn(Uint8List.fromList(utf8.encode(xmlResponseWithWithTwoCurrency)));
         when(() => httpClient.get(any())).thenAnswer((_) async => response);
@@ -132,7 +132,7 @@ void main() {
       () => {
         test('returns a Currency object with the correct properties on valid response', () async {
           final response = MockResponse();
-          final transformer = MockXml2Json();
+          // final transformer = MockXml2Json();
           //TODO Note: Is ot not required to mock some of methods of transformer below?
           when(() => response.statusCode).thenReturn(200);
           when(() => response.bodyBytes).thenReturn(Uint8List.fromList(utf8.encode(xmlResponseWithWithTwoCurrency)));
