@@ -12,13 +12,15 @@ import 'package:xml2json/xml2json.dart';
 /// {@endtemplate}
 class TcmbApiClient {
   /// {@macro tcmb_api_client}
-  TcmbApiClient({http.Client? httpClient}) : _httpClient = httpClient ?? http.Client();
+  TcmbApiClient({http.Client? httpClient, Xml2Json? xmlTransformer})
+      : _httpClient = httpClient ?? http.Client(),
+        _xmlTransformer = xmlTransformer ?? Xml2Json();
   final _baseUrl = 'tcmb.gov.tr';
   final _path = '/kurlar/';
   final http.Client _httpClient;
 
   /// Response will be in xml format, [Xml2Json] is needed to convert it to json
-  final xmlTransformer = Xml2Json();
+  final Xml2Json _xmlTransformer;
 
   /// Fetches the exchange rates from the TCMB API.
   ///
@@ -47,7 +49,7 @@ class TcmbApiClient {
   ///
   /// Returns a `Future` that completes with a list of `Currency` objects representing the exchange rates.
   Future<List<Currency>> getRates({DateTime? date}) async {
-    final request = Uri.https(_baseUrl, '$_path${date != null ? _getPathForDate(date) : 'today'}.xml');
+    final request = Uri.https(_baseUrl, '$_path${date != null ? getPathForDate(date) : 'today'}.xml');
 
     final response = await _httpClient.get(request);
 
@@ -57,16 +59,16 @@ class TcmbApiClient {
 
     final body = utf8.decode(response.bodyBytes);
 
-    final bodyJson = _xmlToJson(body);
+    final bodyJson = xmlToJson(body);
 
     final bodyMap = jsonDecode(bodyJson) as Map<String, dynamic>;
-    if (!bodyMap.containsKey('Tarih_Date')) throw RatesNotFound();
+    if (!bodyMap.containsKey('Tarih_Date')) throw RatesNotFoundFailure();
 
     final dateMap = bodyMap['Tarih_Date'] as Map<String, dynamic>;
-    if (!dateMap.containsKey('Currency')) throw RatesNotFound();
+    if (!dateMap.containsKey('Currency')) throw RatesNotFoundFailure();
 
     final currenciesMap = dateMap['Currency'] as List;
-    if (currenciesMap.isEmpty) throw RatesNotFound();
+    if (currenciesMap.isEmpty) throw RatesNotFoundFailure();
 
     return currenciesMap.map((cMap) => Currency.fromJson(cMap as Map<String, dynamic>)).toList();
   }
@@ -103,13 +105,17 @@ class TcmbApiClient {
   }
 
   /// Internal private method that converts `xml` string passed as a parameter to json format
-  String _xmlToJson(String xml) {
-    xmlTransformer.parse(xml);
-    return xmlTransformer.toParkerWithAttrs();
+  String xmlToJson(String xml) {
+    _xmlTransformer.parse(xml);
+    return _xmlTransformer.toParkerWithAttrs();
   }
 
   /// Internal private method that constructs the part required for endpoint when requesting rates for days other than today
-  String _getPathForDate(DateTime dateTime) {
+  String getPathForDate(DateTime dateTime) {
     return '${dateTime.year}${dateTime.month.toString().padLeft(2, '0')}/${dateTime.day.toString().padLeft(2, '0')}${dateTime.month.toString().padLeft(2, '0')}${dateTime.year}';
+  }
+
+  void dispose() {
+    _httpClient.close();
   }
 }

@@ -3,4 +3,5 @@ targets:
     builders:
       json_serializable:
         options:
+          # We do not need to serialize our objects so we are preventing the generation toJson method that we'll not use
           create_to_json: false

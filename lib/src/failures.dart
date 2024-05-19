@@ -6,8 +6,8 @@ class RatesRequestFailure implements Exception {
 }
 
 /// When request has been made successfully but rates not found this exception will be thrown
-class RatesNotFound implements Exception {
-  RatesNotFound({this.statusCode, this.error});
+class RatesNotFoundFailure implements Exception {
+  RatesNotFoundFailure({this.statusCode, this.error});
   final int? statusCode;
   final String? error;
 }

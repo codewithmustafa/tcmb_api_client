@@ -43,6 +43,6 @@ class Currency {
 
   @override
   String toString() {
-    return 'Currency(code: "$code", unit: $unit, nameInTurkish: "$nameInTurkish", name: "$name", forexBuying: $forexBuying, forexSelling: $forexSelling, banknoteBuying: $bankNoteBuying, banknoteSelling: $banknoteSelling, crossRateUSD: $crossRateUSD, crossRateOther: $crossRateOther)';
+    return 'Currency(code: $code, unit: $unit, nameInTurkish: $nameInTurkish, name: $name, forexBuying: $forexBuying, forexSelling: $forexSelling, banknoteBuying: $bankNoteBuying, banknoteSelling: $banknoteSelling, crossRateUSD: $crossRateUSD, crossRateOther: $crossRateOther)';
   }
 }
