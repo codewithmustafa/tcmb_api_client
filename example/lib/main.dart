@@ -34,17 +34,29 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _apiClient = TcmbApiClient();
   late Future<List<Currency>> _ratesFuture;
+  late Future<Currency?> _usdRateFuture;
 
   @override
   void initState() {
     super.initState();
 
     _ratesFuture = _fetchRates();
+    _usdRateFuture = _fetchUsdRate();
   }
 
   Future<List<Currency>> _fetchRates() async {
     try {
       return await _apiClient.getRates();
+    } catch (e) {
+      // Handle or rethrow the error as appropriate for your app
+      debugPrint('Error fetching rates: $e');
+      rethrow;
+    }
+  }
+
+  Future<Currency?> _fetchUsdRate() async {
+    try {
+      return await _apiClient.getSingleRate(CurrencyCode.USD);
     } catch (e) {
       // Handle or rethrow the error as appropriate for your app
       debugPrint('Error fetching rates: $e');
@@ -58,34 +70,51 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          FutureBuilder<Currency?>(
+            future: _usdRateFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+                final usdRate = snapshot.data;
+                if (usdRate == null) {
+                  return const Center(child: Text('No data'));
+                }
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'USD/TRY: ${usdRate.forexBuying}',
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<List<Currency>>(
           future: _ratesFuture,
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else {
-              final rates = snapshot.data;
-              if (rates == null) {
-                return const Center(child: Text('No data'));
-              }
-              return ListView.builder(
-                itemCount: rates.length,
-                itemBuilder: (context, index) {
-                  final currency = rates[index];
-                  return ListTile(
-                    title: Text(currency.nameInTurkish),
-                    subtitle: Text(currency.name),
-                    trailing: Text(
-                      currency.forexBuying.toString(),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  );
-                },
-              );
+            final rates = snapshot.data;
+            if (rates == null) {
+              return const Center(child: Text('No data'));
             }
+            return ListView.builder(
+              itemCount: rates.length,
+              itemBuilder: (context, index) {
+                final currency = rates[index];
+                return ListTile(
+                  title: Text(currency.nameInTurkish),
+                  subtitle: Text('${currency.code}/TRY'),
+                  trailing: Text(
+                    currency.forexBuying.toString(),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                );
+              },
+            );
           }),
     );
   }
