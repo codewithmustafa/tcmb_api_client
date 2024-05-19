@@ -55,7 +55,7 @@ Future<Currency?> fetchUsdRate() async {
     try {
       return await _apiClient.getSingleRate(CurrencyCode.USD);
     } catch (e) {
-      debugPrint('Error fetching rates: $e');
+      debugPrint('Error fetching rate: $e');
       rethrow;
     }
 }
