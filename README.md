@@ -11,39 +11,56 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-## TODO
+# TCMB API CLIENT
 
-- [ ] Update readme
-- [ ] Add an example app
-- [ ] Document and comment all the code
-- [ ] Double check dependencies and import statements
-- [ ] Write unit tests for api client
-- [ ] Update and complete unit tests for Currency model
-- [ ] Check test coverage and add an html page for viewing easily
+This Dart package provides a simple and efficient way to interact with the Central Bank of Republic of Türkiye (TCMB) API. It allows you to fetch exchange rates and other related data.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+## Demo
+
+![Demo](https://github.com/codewithmustafa/tcmb_api/raw/main/demo/demo.png)
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- Fetch exchange rate for current date
+- Fetch exchange rates for a specific date
+- Fetch a single rate for a specific currency and date
+- Easy to use with a clean and simple API
 
-## Getting started
+## Getting Started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+To use this package, add `tcmb_api` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).
+
+```yaml
+dependencies:
+  tcmb_apı: ^0.0.1
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Here's a simple example of using `TcmbApiClient` to fetch exchange rates:
 
 ```dart
-const like = 'sample';
+import 'package:tcmb_api/tcmb_api.dart';
+
+Future<List<Currency>> fetchRates() async {
+    try {
+      return await _apiClient.getRates();
+    } catch (e) {
+      debugPrint('Error fetching rates: $e');
+      rethrow;
+    }
+  }
+
+Future<Currency?> fetchUsdRate() async {
+    try {
+      return await _apiClient.getSingleRate(CurrencyCode.USD);
+    } catch (e) {
+      debugPrint('Error fetching rates: $e');
+      rethrow;
+    }
+}
 ```
 
-## Additional information
+## Disclaimer
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Please note that this package is not affiliated with, officially connected to, or endorsed by the Central Bank of the Republic of Türkiye (TCMB). The package is developed and maintained independently. The official TCMB website can be found at [https://www.tcmb.gov.tr](https://www.tcmb.gov.tr). The name TCMB as well as related names, marks, emblems and images are registered trademarks of their respective owners.
