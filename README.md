@@ -61,6 +61,10 @@ Future<Currency?> fetchUsdRate() async {
 }
 ```
 
+## Testing and Coverage
+
+This package includes a comprehensive suite of unit tests, which ensures the reliability and correctness of the package's functionality.
+
 ## Disclaimer
 
 Please note that this package is not affiliated with, officially connected to, or endorsed by the Central Bank of the Republic of Türkiye (TCMB). The package is developed and maintained independently. The official TCMB website can be found at [https://www.tcmb.gov.tr](https://www.tcmb.gov.tr). The name TCMB as well as related names, marks, emblems and images are registered trademarks of their respective owners.
