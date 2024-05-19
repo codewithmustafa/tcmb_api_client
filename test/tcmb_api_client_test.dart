@@ -3,8 +3,8 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
-import 'package:tcmb_api/src/tcmb_api_client.dart';
-import 'package:tcmb_api/tcmb_api.dart';
+
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 import 'package:test/test.dart';
 import 'package:xml2json/xml2json.dart';
 

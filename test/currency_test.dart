@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tcmb_api/src/models/models.dart';
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 
 void main() {
   const map = <String, dynamic>{

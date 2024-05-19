@@ -14,7 +14,7 @@ dependencies:
 
   cupertino_icons: ^1.0.6
 
-  tcmb_api:
+  tcmb_api_client:
     path: ../
 
 dev_dependencies:

@@ -208,7 +208,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  tcmb_api:
+  tcmb_api_client:
     dependency: "direct main"
     description:
       path: ".."

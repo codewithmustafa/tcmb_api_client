@@ -1,4 +1,4 @@
-import 'package:tcmb_api/tcmb_api.dart';
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 
 /// A dart example for quick test purposes for the [tcmb_api] package and [TcmbApiClient]
 Future<void> main(List<String> args) async {

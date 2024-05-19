@@ -3,7 +3,7 @@ import 'dart:convert';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
-import 'package:tcmb_api/tcmb_api.dart';
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 import 'package:xml2json/xml2json.dart';
 
 /// {@template tcmb_api_client}

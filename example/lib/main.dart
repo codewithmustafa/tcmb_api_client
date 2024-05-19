@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tcmb_api/tcmb_api.dart';
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 
 void main() {
   runApp(const MyApp());

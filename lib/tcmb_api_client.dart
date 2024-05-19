@@ -1,5 +1,5 @@
 /// {@macro tcmb_api_client}
-library tcmb_api;
+library tcmb_api_client;
 
 export 'src/currency_code.dart';
 export 'src/failures.dart';
