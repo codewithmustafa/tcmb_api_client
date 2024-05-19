@@ -28,11 +28,11 @@ This Dart package provides a simple and efficient way to interact with the Centr
 
 ## Getting Started
 
-To use this package, add `tcmb_api` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).
+To use this package, add `tcmb_api_client` as a [dependency in your pubspec.yaml file](https://flutter.dev/docs/development/packages-and-plugins/using-packages).
 
 ```yaml
 dependencies:
-  tcmb_apı: ^0.0.1
+  tcmb_api_client: ^0.0.1
 ```
 
 ## Usage
@@ -40,7 +40,7 @@ dependencies:
 Here's a simple example of using `TcmbApiClient` to fetch exchange rates:
 
 ```dart
-import 'package:tcmb_api/tcmb_api.dart';
+import 'package:tcmb_api_client/tcmb_api_client.dart';
 
 Future<List<Currency>> fetchRates() async {
     try {
