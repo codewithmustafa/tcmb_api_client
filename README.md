@@ -13,7 +13,7 @@ and the Flutter guide for
 
 # TCMB API CLIENT
 
-This Dart package provides a simple and efficient way to interact with the Central Bank of Republic of Türkiye (TCMB) API. It allows you to fetch exchange rates and other related data.
+This Dart package provides a simple and efficient way to interact with the Central Bank of the Republic of Türkiye (TCMB) API. It allows you to fetch exchange rates and other related data.
 
 ## Demo
 
