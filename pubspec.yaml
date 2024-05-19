@@ -1,7 +1,10 @@
 name: tcmb_api_client
-description: "A new Flutter package project."
+description: This Dart package provides a simple and efficient way to interact with the Central Bank of Republic of Türkiye (TCMB) API. It allows you to fetch exchange rates and other related data.
 version: 0.0.1
-homepage:
+# author: Mustafa Demir <codingwithmustafa@icloud.com>
+homepage: https://www.twitter.com/codewithmustafa
+repository: https://github.com/codewithmustafa/tcmb_api_client/tree/main
+issue_tracker: https://github.com/codewithmustafa/tcmb_api_client/issues
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
