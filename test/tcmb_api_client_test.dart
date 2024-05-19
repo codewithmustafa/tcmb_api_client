@@ -39,7 +39,7 @@ void main() {
     });
 
     group('getRates', () {
-      final date = DateTime.now().subtract(const Duration(days: 1));
+      final date = DateTime(2024, 5, 14);
 
       test('makes correct http request when date parameter is NOT specified', () async {
         final response = MockResponse();
@@ -145,5 +145,10 @@ void main() {
         }),
       },
     );
+
+    test('dispose resources', () {
+      apiClient.dispose();
+      verify(() => httpClient.close()).called(1);
+    });
   });
 }
