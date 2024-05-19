@@ -64,7 +64,7 @@ Future<Currency?> fetchUsdRate() async {
 ## Testing and Coverage
 
 This package includes a comprehensive suite of unit tests, which ensures the reliability and correctness of the package's functionality.
-
+(Cov report added as an image just for now, will connect to a service later)
 ![Code Coverage Report](https://github.com/codewithmustafa/tcmb_api/raw/main/demo/cov.png)
 
 ## Disclaimer
