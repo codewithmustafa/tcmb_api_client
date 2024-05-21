@@ -19,7 +19,7 @@ This Dart package provides a simple and efficient way to interact with the Centr
 
 ![Demo](https://github.com/codewithmustafa/tcmb_api/raw/main/demo/new_demo.png)
 
-## Information Regarding Data
+## ⚠️ Information Regarding Data
 
 This is a Dart client for the TCMB (Central Bank of the Republic of Türkiye) exchange rates API: `https://www.tcmb.gov.tr/kurlar/{date}.xml`. You can use dates such as `today` or `202404/22042024` as path parameters. Please note that the exchange rates provided are indicative and are announced by the Central Bank of the Republic of Türkiye, almost on a daily basis, hence they may not reflect real-time changes.
 
